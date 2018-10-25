@@ -1,5 +1,8 @@
 package com.company;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Random;
 
 public class Main {
@@ -13,33 +16,37 @@ public class Main {
     final static int MIN_CEST_Z_SIDEL = 200;
     final static int MAX_CEST_Z_SIDEL = 500;
 
-    public static void main(String[] args) {
-        Random rand = new Random();
+    final static int INFINITY = 999;
+
+    static Random rand = new Random();
+
+    public static void main(String[] args) throws IOException {
+
 
         // Randomny pocet sidel od 500-2000
         int sidla = rand.nextInt((MAX_POCET_SIDEL - MIN_POCET_SIDEL) + 1) + MIN_POCET_SIDEL;
+        Graph graph = new Graph(sidla);
 
-        Graph graph = new Graph(sidla*500);
+        generate_graph(graph, sidla);
+        graph.shortestPath();
+        graph.print_matrix_to_file("/home/janelle/IdeaProjects/logistic_program_sp/src/com/company/output.txt");
 
-        for (int i = 0; i < sidla; i++) {
-            // Nazev prvniho sidla
-            int prvni_sidlo = rand.nextInt(sidla) + 1;
-            // Pocet cest z prvniho sidla
-            int pocet_cest_z_sidla =  rand.nextInt((MAX_CEST_Z_SIDEL - MIN_CEST_Z_SIDEL) + 1) + MIN_CEST_Z_SIDEL;
+    }
 
-            for (int j = 0; j < pocet_cest_z_sidla; j++) {
-                // Nazev druheho sidla
-                int druhe_sidlo = rand.nextInt(sidla) + 1;
-                // Vzdalenost mezi prvnim a druhym sidlem
-                int km = rand.nextInt((MAX_KM - MIN_KM) + 1) + MIN_KM;
+    private static void generate_graph(Graph graph, int sidla) {
+        for (int i = 0; i < sidla; i++ ) {
+            int prvni_sidlo = i;
+            for (int j = 0; j < sidla; j++ ) {
+                int druhe_sidlo = j;
                 if (prvni_sidlo == druhe_sidlo)
+                {
+                    graph.addEgde(prvni_sidlo, druhe_sidlo, INFINITY);
                     continue;
-
-                // Vytvorit hrany (cestu) mezi sidlami
+                }
+                int km = rand.nextInt((MAX_KM - MIN_KM) + 1) + MIN_KM;
                 graph.addEgde(prvni_sidlo, druhe_sidlo, km);
-                graph.addEgde(druhe_sidlo, prvni_sidlo, km);
             }
         }
-        graph.printGraph();
     }
+
 }
