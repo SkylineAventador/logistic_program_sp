@@ -62,11 +62,11 @@ public class Graph {
 
         for (int i = 0; i < vertices; i++) {
             for (int j = 0; j < vertices; j++) {
-                if (pathMatrix[i][j] == INFINITY)
-                    continue;
-                for (int k = 0; k < vertices; k++) {
-                    if (pathMatrix[i][k] + pathMatrix[k][j] < pathMatrix[i][j])
-                        pathMatrix[i][j] = pathMatrix[i][k] + pathMatrix[k][j];
+                if (pathMatrix[i][j] != INFINITY) {
+                    for (int k = 0; k < vertices; k++) {
+                        if (pathMatrix[i][k] + pathMatrix[k][j] < pathMatrix[i][j])
+                            pathMatrix[i][j] = pathMatrix[i][k] + pathMatrix[k][j];
+                    }
                 }
             }
         }

@@ -16,21 +16,26 @@ public class Main {
     final static int MIN_CEST_Z_SIDEL = 200;
     final static int MAX_CEST_Z_SIDEL = 500;
 
+    /**
+     * Popis nekonecna v ohodnoceni grafu
+     */
     final static int INFINITY = 999;
 
     static Random rand = new Random();
 
     public static void main(String[] args) throws IOException {
-
-
-        // Randomny pocet sidel od 500-2000
+        // Nahodny pocet sidel od 500-2000
         int sidla = rand.nextInt((MAX_POCET_SIDEL - MIN_POCET_SIDEL) + 1) + MIN_POCET_SIDEL;
+
+        System.out.println("Pocet sidel je nastaven na hodnotu: " + sidla);
+
         Graph graph = new Graph(sidla);
 
         generate_graph(graph, sidla);
+
         graph.floyd_warshall();
-        graph.print_matrix_to_file("output.txt");   // vypis grafu (matice)
-        graph.print_matrix_to_file2("output2.txt"); // nejkratsi cesty (matice)
+//        graph.print_matrix_to_file("output.txt");   // vypis grafu (matice)
+//        graph.print_matrix_to_file2("output2.txt"); // nejkratsi cesty (matice)
         System.out.println("Shortest distance from sidlo 1 to 50: " + graph.get_shortest_distance_from_A_to_B(1,50));
 
     }
